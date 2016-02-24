@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+~  Copyright (c) 2016, WSO2 Inc. (http://wso2.com) All Rights Reserved.
+~
+~  WSO2 Inc. licenses this file to you under the Apache License,
+~  Version 2.0 (the "License"); you may not use this file except
+~  in compliance with the License.
+~  You may obtain a copy of the License at
+~
+~   http://www.apache.org/licenses/LICENSE-2.0
+~
+~  Unless required by applicable law or agreed to in writing,
+~  software distributed under the License is distributed on an
+~  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~  KIND, either express or implied.  See the License for the
+~  specific language governing permissions and limitations
+~  under the License.
+-->
+<template name="addCommentToOrder" xmlns="http://ws.apache.org/ns/synapse">
+    <parameter name="orderIncrementId" description="The Order increment identifier."/>
+    <parameter name="status" description="The order status."/>
+    <parameter name="comment" description="The order comment."/>
+    <parameter name="notify" description="The Notification flag."/>
+    <sequence>
+        <property name="uri.var.orderIncrementId" expression="$func:orderIncrementId"/>
+        <property name="uri.var.status" expression="$func:status"/>
+        <property name="uri.var.comment" expression="$func:comment"/>
+        <property name="uri.var.notify" expression="$func:notify"/>
+        <payloadFactory media-type="xml">
+            <format>
+                <salesOrderAddComment>
+                    <sessionId>$1</sessionId>
+                    <orderIncrementId>$2</orderIncrementId>
+                    <status>$3</status>
+                    <comment>$4</comment>
+                    <notify>$5</notify>
+                </salesOrderAddComment>
+            </format>
+            <args>
+                <arg expression="get-property('uri.var.sessionId')"/>
+                <arg expression="get-property('uri.var.orderIncrementId')"/>
+                <arg expression="get-property('uri.var.status')"/>
+                <arg expression="get-property('uri.var.comment')"/>
+                <arg expression="get-property('uri.var.notify')"/>
+            </args>
+        </payloadFactory>
+        <call>
+            <endpoint>
+                <default format="soap11"/>
+            </endpoint>
+        </call>
+        <!-- Remove custom header information in response -->
+        <header name="X-Powered-By" scope="transport" action="remove"/>
+        <header name="Set-Cookie" scope="transport" action="remove"/>
+        <header name="Expires" scope="transport" action="remove"/>
+        <header name="Pragma" scope="transport" action="remove"/>
+        <header name="Cache-Control" scope="transport" action="remove"/>
+    </sequence>
+</template>
