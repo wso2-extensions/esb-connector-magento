@@ -30,5 +30,9 @@
             <file>cancelOrder.xml</file>
             <description>Cancel an order.</description>
         </component>
+        <component name="listSalesOrders">
+            <file>listSalesOrders.xml</file>
+            <description>Retrieve the list of sales orders.</description>
+        </component>
     </subComponents>
 </component>

@@ -16,31 +16,23 @@
 ~  specific language governing permissions and limitations
 ~  under the License.
 -->
-<template name="addCartProduct" xmlns="http://ws.apache.org/ns/synapse">
-    <parameter name="quoteId" description="The ID of the shopping cart to which items need to be added."/>
-    <parameter name="products" description="Details of the product to be added to the shopping cart."/>
-    <parameter name="storeId" description="The ID of the store the shopping cart was created in.,"/>
+<template name="listSalesOrders" xmlns="http://ws.apache.org/ns/synapse">
+    <parameter name="filters" description="Array of filters for the list of sales orders."/>
     <sequence>
-        <property name="uri.var.quoteId" expression="$func:quoteId"/>
-        <property name="uri.var.products" expression="$func:products"/>
-        <property name="uri.var.storeId" expression="$func:storeId"/>
+        <property name="filters" expression="$func:filters"/>
         <payloadFactory media-type="xml">
             <format>
-                <shoppingCartProductAdd>
+                <salesOrderList>
                     <sessionId>$1</sessionId>
-                    <quoteId>$2</quoteId>
-                    <products>$3</products>
-                    <storeId>$4</storeId>
-                </shoppingCartProductAdd>
+                    <filters>$2</filters>
+                </salesOrderList>
             </format>
             <args>
                 <arg expression="$ctx:uri.var.sessionId"/>
-                <arg expression="$ctx:uri.var.quoteId"/>
-                <arg expression="$ctx:uri.var.products"/>
-                <arg expression="$ctx:uri.var.storeId"/>
+                <arg expression="$ctx:filters"/>
             </args>
         </payloadFactory>
-        <!-- Remove root element via XSLT -->
+        <!-- Remove values element via XSLT -->
         <xslt key="magento_removeRootElement.xslt"/>
         <property name="DISABLE_CHUNKING" scope="axis2" value="true"/>
         <filter source="$ctx:magento.blocking" regex="true">
