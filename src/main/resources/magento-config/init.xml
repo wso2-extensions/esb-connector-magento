@@ -24,8 +24,12 @@
     <sequence>
         <property name="uri.var.apiUser" expression="$func:apiUser"/>
         <property name="uri.var.apiKey" expression="$func:apiKey"/>
-        <property name="uri.var.apiUrl" expression="$func:apiUrl"/>
+        <property name="uri.var.magento.apiUrl" expression="$func:apiUrl"/>
         <property name="magento.blocking" expression="$func:blocking"/>
+        <enrich>
+            <source clone="true" type="body"/>
+            <target property="ORIGINAL_MSG_PAYLOAD" type="property"/>
+        </enrich>
         <payloadFactory media-type="xml">
             <format>
                 <soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -46,7 +50,7 @@
                 <arg expression="$ctx:uri.var.apiKey"/>
             </args>
         </payloadFactory>
-        <header name="To" expression="$ctx:uri.var.apiUrl"/>
+        <header name="To" expression="$ctx:uri.var.magento.apiUrl"/>
         <header name="Action" value="urn:Mage_Api_Model_Server_V2_HandlerAction"/>
         <property name="FORCE_ERROR_ON_SOAP_FAULT" value="true"/>
         <property name="DISABLE_CHUNKING" scope="axis2" value="true"/>
@@ -75,8 +79,16 @@
         <header name="Content-Encoding" scope="transport" action="remove"/>
         <property expression="//loginReturn/text()" name="uri.var.sessionId" type="STRING"/>
         <header name="Accept-Encoding" value="gzip,deflate" scope="transport"/>
-        <header name="To" expression="get-property('uri.var.apiUrl')"/>
+        <header name="To" expression="get-property('uri.var.magento.apiUrl')"/>
         <header name="Action" value="urn:Mage_Api_Model_Server_V2_HandlerAction"/>
         <property name="FORCE_ERROR_ON_SOAP_FAULT" value="false"/>
+        <enrich>
+            <source clone="true" type="body"/>
+            <target property="MAGENTO_LOGIN_RESPONSE" type="property"/>
+        </enrich>
+        <enrich>
+            <source clone="true" property="ORIGINAL_MSG_PAYLOAD" type="property"/>
+            <target type="body"/>
+        </enrich>
     </sequence>
 </template>

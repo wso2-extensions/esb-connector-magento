@@ -33,6 +33,7 @@
             </args>
         </payloadFactory>
         <property name="DISABLE_CHUNKING" scope="axis2" value="true"/>
+        <header name="To" expression="get-property('uri.var.magento.apiUrl')"/>
         <filter source="$ctx:magento.blocking" regex="true">
             <then>
                 <call blocking="true">
