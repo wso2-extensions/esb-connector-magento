@@ -32,6 +32,7 @@
         <dependency component="magento-salesOrderInvoice"/>
         <dependency component="magento-salesOrderShipment"/>
         <dependency component="magento-shoppingCart"/>
+        <dependency component="magento-directory"/>
         <description>Magento connector library</description>
     </component>
     <icon>icon/icon-small.gif</icon>
