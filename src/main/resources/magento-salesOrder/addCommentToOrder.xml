@@ -37,18 +37,31 @@
                 </salesOrderAddComment>
             </format>
             <args>
-                <arg expression="get-property('uri.var.sessionId')"/>
-                <arg expression="get-property('uri.var.orderIncrementId')"/>
-                <arg expression="get-property('uri.var.status')"/>
-                <arg expression="get-property('uri.var.comment')"/>
-                <arg expression="get-property('uri.var.notify')"/>
+                <arg expression="$ctx:uri.var.sessionId"/>
+                <arg expression="$ctx:uri.var.orderIncrementId"/>
+                <arg expression="$ctx:uri.var.status"/>
+                <arg expression="$ctx:uri.var.comment"/>
+                <arg expression="$ctx:uri.var.notify"/>
             </args>
         </payloadFactory>
-        <call>
-            <endpoint>
-                <default format="soap11"/>
-            </endpoint>
-        </call>
+        <property name="DISABLE_CHUNKING" scope="axis2" value="true"/>
+        <header name="To" expression="get-property('uri.var.magento.apiUrl')"/>
+        <filter source="$ctx:magento.blocking" regex="true">
+            <then>
+                <call blocking="true">
+                    <endpoint>
+                        <default format="soap11"/>
+                    </endpoint>
+                </call>
+            </then>
+            <else>
+                <call>
+                    <endpoint>
+                        <default format="soap11"/>
+                    </endpoint>
+                </call>
+            </else>
+        </filter>
         <!-- Remove custom header information in response -->
         <header name="X-Powered-By" scope="transport" action="remove"/>
         <header name="Set-Cookie" scope="transport" action="remove"/>

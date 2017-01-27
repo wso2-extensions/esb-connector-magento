@@ -16,34 +16,24 @@
 ~  specific language governing permissions and limitations
 ~  under the License.
 -->
-<template name="addCommentToShipment" xmlns="http://ws.apache.org/ns/synapse">
-    <parameter name="shipmentIncrementId" description="The shipment increment ID."/>
-    <parameter name="comment" description="The shipment comment."/>
-    <parameter name="email" description="The flag to send emails."/>
-    <parameter name="includeInEmail" description="The flag to include comment in email."/>
+<template name="listSalesOrders" xmlns="http://ws.apache.org/ns/synapse">
+    <parameter name="filters" description="Array of filters for the list of sales orders."/>
     <sequence>
-        <property name="uri.var.shipmentIncrementId" expression="$func:shipmentIncrementId"/>
-        <property name="uri.var.comment" expression="$func:comment"/>
-        <property name="uri.var.email" expression="$func:email"/>
-        <property name="uri.var.includeInEmail" expression="$func:includeInEmail"/>
+        <property name="filters" expression="$func:filters"/>
         <payloadFactory media-type="xml">
             <format>
-                <salesOrderShipmentAddComment>
+                <salesOrderList>
                     <sessionId>$1</sessionId>
-                    <shipmentIncrementId>$2</shipmentIncrementId>
-                    <comment>$3</comment>
-                    <email>$4</email>
-                    <includeInEmail>$5</includeInEmail>
-                </salesOrderShipmentAddComment>
+                    <filters>$2</filters>
+                </salesOrderList>
             </format>
             <args>
                 <arg expression="$ctx:uri.var.sessionId"/>
-                <arg expression="$ctx:uri.var.shipmentIncrementId"/>
-                <arg expression="$ctx:uri.var.comment"/>
-                <arg expression="$ctx:uri.var.email"/>
-                <arg expression="$ctx:uri.var.includeInEmail"/>
+                <arg expression="$ctx:filters"/>
             </args>
         </payloadFactory>
+        <!-- Remove values element via XSLT -->
+        <xslt key="magento_removeRootElement.xslt"/>
         <property name="DISABLE_CHUNKING" scope="axis2" value="true"/>
         <header name="To" expression="get-property('uri.var.magento.apiUrl')"/>
         <filter source="$ctx:magento.blocking" regex="true">

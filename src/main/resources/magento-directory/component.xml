@@ -16,23 +16,11 @@
 ~  specific language governing permissions and limitations
 ~  under the License.
 -->
-<component name="magento-salesOrder" type="synapse/template">
+<component name="magento-directory" type="synapse/template">
     <subComponents>
-        <component name="getOrderInfo">
-            <file>getOrderInfo.xml</file>
-            <description>Retrieve the order information.</description>
-        </component>
-        <component name="addCommentToOrder">
-            <file>addCommentToOrder.xml</file>
-            <description>Add a comment to an order.</description>
-        </component>
-        <component name="cancelOrder">
-            <file>cancelOrder.xml</file>
-            <description>Cancel an order.</description>
-        </component>
-        <component name="listSalesOrders">
-            <file>listSalesOrders.xml</file>
-            <description>Retrieve the list of sales orders.</description>
+        <component name="listRegions">
+            <file>listRegions.xml</file>
+            <description>Retrieves the regions list.</description>
         </component>
     </subComponents>
 </component>
