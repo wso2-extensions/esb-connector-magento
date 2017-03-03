@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+~  Copyright (c) 2017, WSO2 Inc. (http://wso2.com) All Rights Reserved.
+~
+~  WSO2 Inc. licenses this file to you under the Apache License,
+~  Version 2.0 (the "License"); you may not use this file except
+~  in compliance with the License.
+~  You may obtain a copy of the License at
+~
+~   http://www.apache.org/licenses/LICENSE-2.0
+~
+~  Unless required by applicable law or agreed to in writing,
+~  software distributed under the License is distributed on an
+~  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~  KIND, either express or implied.  See the License for the
+~  specific language governing permissions and limitations
+~  under the License.
+-->
+<template name="addTrack" xmlns="http://ws.apache.org/ns/synapse">
+    <parameter name="shipmentIncrementId" description="The increment ID of the shipment."/>
+    <parameter name="carrier" description="The Carrier code (ups, usps, dhl, fedex, or dhlint)."/>
+    <parameter name="title" description="The tracking title."/>
+    <parameter name="trackNumber" description="The tracking number."/>
+    <sequence>
+        <property name="uri.var.shipmentIncrementId" expression="$func:shipmentIncrementId"/>
+        <property name="uri.var.carrier" expression="$func:carrier"/>
+        <property name="uri.var.title" expression="$func:title"/>
+        <property name="uri.var.trackNumber" expression="$func:trackNumber"/>
+        <payloadFactory media-type="xml">
+            <format>
+                <salesOrderShipmentAddTrack>
+                    <sessionId>$1</sessionId>
+                    <shipmentIncrementId>$2</shipmentIncrementId>
+                    <carrier>$3</carrier>
+                    <title>$4</title>
+                    <trackNumber>$5</trackNumber>
+                </salesOrderShipmentAddTrack>
+            </format>
+            <args>
+            <arg expression="$ctx:uri.var.sessionId"/>
+            <arg expression="$ctx:uri.var.shipmentIncrementId"/>
+            <arg expression="$ctx:uri.var.carrier"/>
+            <arg expression="$ctx:uri.var.title"/>
+            <arg expression="$ctx:uri.var.trackNumber"/>
+            </args>
+        </payloadFactory>
+        <property name="DISABLE_CHUNKING" scope="axis2" value="true"/>
+        <header name="To" expression="get-property('uri.var.magento.apiUrl')"/>
+        <filter source="$ctx:magento.blocking" regex="true">
+            <then>
+                <call blocking="true">
+                    <endpoint>
+                        <default format="soap11"/>
+                    </endpoint>
+                </call>
+            </then>
+            <else>
+                <call>
+                    <endpoint>
+                        <default format="soap11"/>
+                    </endpoint>
+                </call>
+            </else>
+        </filter>
+        <!-- Remove custom header information in response -->
+        <header name="X-Powered-By" scope="transport" action="remove"/>
+        <header name="Set-Cookie" scope="transport" action="remove"/>
+        <header name="Expires" scope="transport" action="remove"/>
+        <header name="Pragma" scope="transport" action="remove"/>
+        <header name="Cache-Control" scope="transport" action="remove"/>
+    </sequence>
+</template>

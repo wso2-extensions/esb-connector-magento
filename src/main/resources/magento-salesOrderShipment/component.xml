@@ -30,5 +30,9 @@
             <file>addCommentToShipment.xml</file>
             <description>Add a new comment to a shipment.</description>
         </component>
+        <component name="addTrack">
+            <file>addTrack.xml</file>
+            <description>Add a new tracking number to the order shipment.</description>
+        </component>
     </subComponents>
 </component>
