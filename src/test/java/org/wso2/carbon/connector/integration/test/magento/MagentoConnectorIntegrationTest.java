@@ -57,7 +57,7 @@ public class MagentoConnectorIntegrationTest extends ConnectorIntegrationTestBas
     @BeforeClass(alwaysRun = true)
     public void setEnvironment() throws Exception {
 
-        init("magento-connector-1.0.2");
+        init("magento-connector-1.0.3-SNAPSHOT");
 
         apiRequestHeadersMap.putAll(esbRequestHeadersMap);
 
