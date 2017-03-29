@@ -18,10 +18,6 @@
 
 package org.wso2.carbon.connector.integration.test.magento;
 
-import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.util.AXIOMUtil;
 import org.apache.axiom.soap.SOAPEnvelope;
@@ -30,6 +26,10 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.connector.integration.test.base.ConnectorIntegrationTestBase;
+
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MagentoConnectorIntegrationTest extends ConnectorIntegrationTestBase {
 
@@ -57,7 +57,7 @@ public class MagentoConnectorIntegrationTest extends ConnectorIntegrationTestBas
     @BeforeClass(alwaysRun = true)
     public void setEnvironment() throws Exception {
 
-        init("magento-connector-1.0.3-SNAPSHOT");
+        init("magento-connector-1.0.2");
 
         apiRequestHeadersMap.putAll(esbRequestHeadersMap);
 
