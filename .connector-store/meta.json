@@ -1,0 +1,21 @@
+{
+    "name": "Magento",
+    "owner": "WSO2",
+    "category": "E-commerce",
+    "documentationUrl": "https://docs.wso2.com/display/ESBCONNECTORS/Magento+Connector",
+    "description": "Note: This connector is deprecated. It is not compatible with new Magento APIs.\n\nThe Magento connector allows you to access the Magento SOAP API through WSO2 ESB. Magento is an open source e-commerce Web application. It is a content management system (CMS) based on PHP and MySQL for the Web hosting service, which was built using parts of the Zend Framework. It provides full support for object-oriented programming and Model-View-Controller (MVC) architecture. ",
+    "status": "Active",
+    "labels": [
+        "connector"
+    ],
+    "releases": [
+        {
+            "tag_name": "v1.0.2",
+            "products": [
+                "ESB 4.8.1",
+                "ESB 5.0.0"
+            ],
+            "isHidden": false
+        }
+    ]
+}
